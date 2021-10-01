@@ -37,4 +37,19 @@ lemma add_assoc [simp]: "add (add xs ys) zs = add xs (add ys zs)"
   apply (auto)
   done
 
+lemma add_ys_0 [simp]: "add ys 0 = ys"
+  apply(induction ys)
+   apply auto
+  done
+
+lemma suc_add [simp]: "Suc (add ys xs) = add ys (Suc xs)"
+  apply(induction ys)
+  apply(auto)
+  done
+                                                         
+lemma add_comm [simp]: "add xs ys = add ys xs"
+  apply(induction xs)
+  apply (auto)
+  done
+
 end
