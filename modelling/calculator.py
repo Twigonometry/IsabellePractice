@@ -1,20 +1,24 @@
-from cmd import Cmd
-
 class Calculator:
     """simplistic calculator with getResult, clear methods
     could be modelled more like this example: https://gist.github.com/technillogue/5887092"""
 
+    op_chars = ['+','-','/','*']
+
     def add(self, x, y):
-        return x + y
+        print(str(x) + " + " + str(y))
+        return int(x) + int(y)
 
     def sub(self, x, y):
-        return x - y
+        print(str(x) + " - " + str(y))
+        return int(x) - int(y)
 
     def mul(self, x, y):
-        return x * y
+        print(str(x) + " * " + str(y))
+        return int(x) * int(y)
 
     def div(self, x, y):
-        return x / y
+        print(str(x) + " - " + str(y))
+        return int(x) / int(y)
 
     def addInput(self, input):
         self.input = input
@@ -22,9 +26,56 @@ class Calculator:
     def clear(self):
         self.input = ""
 
+    def evaluate(self, tokens):
+        print(tokens)
+        if len(tokens) is 1:
+            return tokens[0]
+        for t in tokens:
+            if t.isdigit():
+                pass
+            if t in self.op_chars:
+                try:
+                    pos = tokens.index(t)
+                    left = self.evaluate(tokens[:pos])
+                    right = self.evaluate(tokens[pos + 1:])
+
+                    print("Left: " + left)
+                    print("Right: " + right)
+
+                    if t == "+":
+                        return self.add(left, right)
+                    elif t == "-":
+                        return self.sub(left, right)
+                    elif t == "*":
+                        return self.mul(left, right)
+                    elif t == "/":
+                        return self.div(left, right)
+                except ValueError:
+                    pass
+
     def getResult(self, input):
-        """set input to result"""
-        return True
+        """set input to result
+        use similar approach to referenced gist - make list of operator characters and evaluate their neighbours"""
+
+        self.input = self.input.strip()
+
+        # digs = []
+        # ops = []
+
+        tokens = []
+
+        for c in self.input:
+            # c = chr(c)
+            print(c)
+            print(type(c))
+            if c.isdigit() or c in self.op_chars:
+                tokens.append(c)
+            else:
+                return("Invalid character detected in input")
+
+        res = self.evaluate(tokens)        
+        
+        return res
 
     def __init__(self):
         self.input = ""
@@ -35,7 +86,7 @@ class Calculator:
 
         while user_input != "quit":
             if user_input == "result":
-                self.getResult(self.input)
+                print(str(self.getResult(self.input)))
 
                 self.clear()
             elif user_input == "clear":
