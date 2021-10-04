@@ -2,7 +2,7 @@ class Calculator:
     """simplistic calculator with getResult, clear methods
     could be modelled more like this example: https://gist.github.com/technillogue/5887092"""
 
-    op_chars = ['+','-','/','*']
+    op_chars = ['-','+','*','/']
 
     def add(self, x, y):
         print(str(x) + " + " + str(y))
@@ -30,34 +30,57 @@ class Calculator:
         print(tokens)
         if len(tokens) is 1:
             return tokens[0]
-        for t in tokens:
-            if t.isdigit():
+        for o in self.op_chars:
+            """find instances of each operator
+            evaluate in reverse order of precedence"""
+            try:
+                pos = tokens.index(o)
+
+                left = self.evaluate(tokens[:pos])
+                right = self.evaluate(tokens[pos + 1:])
+
+                print("Left: " + str(left))
+                print("Right: " + str(right))
+
+                if o == "+":
+                    return self.add(left, right)
+                elif o == "-":
+                    return self.sub(left, right)
+                elif o == "*":
+                    return self.mul(left, right)
+                elif o == "/":
+                    return self.div(left, right)
+            except ValueError:
                 pass
-            if t in self.op_chars:
-                try:
-                    pos = tokens.index(t)
-                    left = self.evaluate(tokens[:pos])
-                    right = self.evaluate(tokens[pos + 1:])
 
-                    print("Left: " + left)
-                    print("Right: " + right)
+        # for t in tokens:
+        #     if t.isdigit():
+        #         pass
+        #     if t in self.op_chars:
+        #         try:
+        #             pos = tokens.index(t)
+        #             left = self.evaluate(tokens[:pos])
+        #             right = self.evaluate(tokens[pos + 1:])
 
-                    if t == "+":
-                        return self.add(left, right)
-                    elif t == "-":
-                        return self.sub(left, right)
-                    elif t == "*":
-                        return self.mul(left, right)
-                    elif t == "/":
-                        return self.div(left, right)
-                except ValueError:
-                    pass
+        #             print("Left: " + str(left))
+        #             print("Right: " + str(right))
+
+        #             if t == "+":
+        #                 return self.add(left, right)
+        #             elif t == "-":
+        #                 return self.sub(left, right)
+        #             elif t == "*":
+        #                 return self.mul(left, right)
+        #             elif t == "/":
+        #                 return self.div(left, right)
+        #         except ValueError:
+        #             pass
 
     def getResult(self, input):
         """set input to result
         use similar approach to referenced gist - make list of operator characters and evaluate their neighbours"""
 
-        self.input = self.input.strip()
+        self.input = self.input.replace(" ", "")
 
         # digs = []
         # ops = []
