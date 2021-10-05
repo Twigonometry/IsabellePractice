@@ -1,6 +1,7 @@
 class Calculator:
     """simplistic calculator with getResult, clear methods
-    could be modelled more like this example: https://gist.github.com/technillogue/5887092"""
+    could be modelled more like this example: https://gist.github.com/technillogue/5887092
+    evaluation function stolen from above"""
 
     op_chars = ['-','+','*','/']
 
@@ -53,37 +54,11 @@ class Calculator:
             except ValueError:
                 pass
 
-        # for t in tokens:
-        #     if t.isdigit():
-        #         pass
-        #     if t in self.op_chars:
-        #         try:
-        #             pos = tokens.index(t)
-        #             left = self.evaluate(tokens[:pos])
-        #             right = self.evaluate(tokens[pos + 1:])
-
-        #             print("Left: " + str(left))
-        #             print("Right: " + str(right))
-
-        #             if t == "+":
-        #                 return self.add(left, right)
-        #             elif t == "-":
-        #                 return self.sub(left, right)
-        #             elif t == "*":
-        #                 return self.mul(left, right)
-        #             elif t == "/":
-        #                 return self.div(left, right)
-        #         except ValueError:
-        #             pass
-
-    def getResult(self, input):
+    def getResult(self):
         """set input to result
         use similar approach to referenced gist - make list of operator characters and evaluate their neighbours"""
 
         self.input = self.input.replace(" ", "")
-
-        # digs = []
-        # ops = []
 
         tokens = []
 
