@@ -7,8 +7,6 @@ begin
 fun add :: "nat => nat => nat" where
 "add m n = m + n"
 
-value "3 add 3"
-
 fun sub :: "nat => nat => nat" where
 "sub m n = m - n"
 
@@ -20,6 +18,11 @@ fun mul :: "nat => nat => nat" where
 fun divide :: "nat => nat => nat" where
 "divide m n = m div n"
 
-value "(3::nat) add (3::nat)"
+datatype calc_op = Plus | Minus | Times | Divides
+
+datatype calc_expr = nat | calc_expr calc_op calc_expr
+
+fun calc_eval :: calc_expr \<Rightarrow> nat where
+"calc_expr Plus calc_expr = (calc_eval calc_expr) add (calc_eval calc_expr)"
 
 end
