@@ -2,7 +2,8 @@ theory Calculator
 imports Main
 begin
 
-(* basic arithmetic function definitions *)
+(* basic arithmetic function definitions
+defining these for the sake of modelling the Python program as closely as possible *)
 
 fun add :: "nat => nat => nat" where
 "add m n = m + n"
@@ -20,9 +21,17 @@ fun divide :: "nat => nat => nat" where
 
 datatype calc_op = Plus | Minus | Times | Divides
 
-datatype calc_expr = nat | calc_expr calc_op calc_expr
+(* Constructors for expression - Basic expression and Compound expression *)
 
-fun calc_eval :: calc_expr \<Rightarrow> nat where
-"calc_expr Plus calc_expr = (calc_eval calc_expr) add (calc_eval calc_expr)"
+datatype calc_expr = Bexp nat | Cexp calc_expr calc_op calc_expr
+
+(* Use constructor names to pattern match for each case *)
+
+fun calc_eval :: "calc_expr \<Rightarrow> nat" where
+"calc_eval (Bexp n) = n" |
+"calc_eval (Cexp Plus x y) = add (calc_eval x) (calc_eval y)" |
+"calc_eval (Cexp Minus x y) = sub (calc_eval x) (calc_eval y)" |
+"calc_eval (Cexp Times x y) = mul (calc_eval y) (calc_eval y)" |
+"calc_eval (Cexp Divides x y) = divide (calc_eval x) (calc_eval y)"
 
 end
