@@ -42,6 +42,7 @@ value "add 3 3"
 
 value "calc_eval (Bexp 3)"
 
-value "calc_eval (Cexp (3 Plus 3))"
+(* value "calc_eval (Cexp ((Bexp 3) Plus (Bexp 3)))" *)
+value "calc_eval (Cexp (Plus (Bexp 3) (Bexp 3)))"
 
 end
