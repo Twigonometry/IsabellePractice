@@ -2,47 +2,48 @@ theory Calculator
 imports Main
 begin
 
+datatype state = St (getInt:int)
+
+(* calculator functions on state *)
+
+fun clear :: "state => state" where
+"clear (St m) = St 0"
+
+fun getResult :: "state => int" where
+"getResult (St m) = m"
+
 (* basic arithmetic function definitions
-defining these for the sake of modelling the Python program as closely as possible *)
+perform an action on a state *)
 
-fun add :: "nat => nat => nat" where
-"add m n = m + n"
+fun add :: "state => int => state" where
+"add (St m) n = St (m + n)"
 
-fun sub :: "nat => nat => nat" where
-"sub m n = m - n"
+fun sub :: "state => int => state" where
+"sub (St m) n = St (m - n)"
 
-fun mul :: "nat => nat => nat" where
-"mul m n = m * n"
+fun mul :: "state \<Rightarrow> int \<Rightarrow> state" where
+"mul (St m) n = St (m * n)"
 
-(* / character does not divide, div is builtin *)
+fun divide :: "state \<Rightarrow> int \<Rightarrow> state" where
+"divide (St m) n = St (m div n)"
 
-fun divide :: "nat => nat => nat" where
-"divide m n = m div n"
+value "add (St 3) 3"
 
-datatype calc_op = Plus | Minus | Times | Divides
+(* 
+model a 'session' (series of commands in python program)
+e.g.
+calculator c = new Calculator(); (this will be boilerplate)
+c.clear().add(2).clear().getResult();
+*)
 
-(* Constructors for expression - Basic expression and Compound expression *)
+datatype session = GetResult | Clear session | Add int session | Sub int session | Mul int session | Div int session
 
-datatype calc_expr = Bexp nat | Cexp calc_expr calc_op calc_expr
+term Add
 
-(* Use constructor names to pattern match for each case *)
+term "Clear (Add 2 (Clear GetResult))"
 
-fun calc_eval :: "calc_expr \<Rightarrow> nat" where
-"calc_eval (Bexp n) = n" |
-"calc_eval (Cexp x Plus y) = add (calc_eval x) (calc_eval y)" |
-"calc_eval (Cexp x Minus y) = sub (calc_eval x) (calc_eval y)" |
-"calc_eval (Cexp x Times y) = mul (calc_eval y) (calc_eval y)" |
-"calc_eval (Cexp x Divides y) = divide (calc_eval x) (calc_eval y)"
+value "Add 2 GetResult"
 
-value "add 3 3"
-
-(* value "calc_eval Plus 3 3" *)
-(* value "calc_eval 3 Plus 3" *)
-(* value "calc_eval (Cexp 3 Plus 3)" *)
-
-value "calc_eval (Bexp 3)"
-
-(* value "calc_eval (Cexp ((Bexp 3) Plus (Bexp 3)))" *)
-value "calc_eval (Cexp (Plus (Bexp 3) (Bexp 3)))"
+term "Clear (Add 2 (GetResult))"
 
 end
