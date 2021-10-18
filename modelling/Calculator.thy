@@ -35,12 +35,6 @@ fun divide :: "int \<Rightarrow> state => state" where
 fun add :: "state => int => state" where
 "add (St m) n = St (m + n)"
 
-fun clear :: "state => state" where
-"clear (St m) = St 0"
-
-fun getResult :: "state => int" where
-"getResult (St m) = m"
-
 (* 
 model a 'session' (series of commands in python program)
 e.g.
