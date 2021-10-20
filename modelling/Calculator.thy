@@ -32,17 +32,17 @@ fun divide :: "int \<Rightarrow> state => state" where
 "divide m (St n) = St (m div n)"
 *)
 
-fun add :: "state => int => state" where
-"add (St m) n = St (m + n)"
+fun add :: "int => state => state" where
+"add m (St n) = St (m + n)"
 
-fun sub :: "state \<Rightarrow> int \<Rightarrow> state" where
-"sub (St m) n = St (m - n)"
+fun sub :: "int => state \<Rightarrow> state" where
+"sub m (St n) = St (m - n)"
 
-fun mul :: "state \<Rightarrow> int \<Rightarrow> state" where
-"mul (St m) n = St (m * n)"
+fun mul :: "int => state \<Rightarrow> state" where
+"mul m (St n) = St (m * n)"
 
-fun divi :: "state \<Rightarrow> int \<Rightarrow> state" where
-"divi (St m) n = St (m div n)"
+fun divi :: "int => state \<Rightarrow> state" where
+"divi m (St n) = St (m div n)"
 
 (* 
 model a 'session' (series of commands in python program)
@@ -67,13 +67,15 @@ datatype session = GetResult | Clear session | Add int session | Sub int session
 
 (* todo: write evals in terms of arithmetic funcs? *)
 
+value "add 2 (St 3)"
+
 fun eval :: "state \<Rightarrow> session \<Rightarrow> state" where
 "eval s GetResult = s" |
 "eval (St i) (Clear ses)  = eval (St 0) ses" |
-"eval (St j) (Add i ses) = eval (St (i+j)) ses" |
-"eval (St j) (Sub i ses) = eval (St (i-j)) ses" |
-"eval (St j) (Mul i ses) = eval (St (i*j)) ses" |
-"eval (St j) (Div i ses) = eval (St (i div j)) ses"
+"eval (St j) (Add i ses) = eval (St (add i j)) ses" |
+"eval (St j) (Sub i ses) = eval (St (sub i j)) ses" |
+"eval (St j) (Mul i ses) = eval (St (mul i j)) ses" |
+"eval (St j) (Div i ses) = eval (St (divi i j)) ses"
 
 value "getInt (eval (St 0) (Add 5 GetResult))"
 
