@@ -72,10 +72,10 @@ value "add 2 (St 3)"
 fun eval :: "state \<Rightarrow> session \<Rightarrow> state" where
 "eval s GetResult = s" |
 "eval (St i) (Clear ses)  = eval (St 0) ses" |
-"eval (St j) (Add i ses) = eval (St (add i j)) ses" |
-"eval (St j) (Sub i ses) = eval (St (sub i j)) ses" |
-"eval (St j) (Mul i ses) = eval (St (mul i j)) ses" |
-"eval (St j) (Div i ses) = eval (St (divi i j)) ses"
+"eval (St j) (Add i ses) = eval (add i (St j)) ses" |
+"eval (St j) (Sub i ses) = eval (sub i (St j)) ses" |
+"eval (St j) (Mul i ses) = eval (mul i (St j)) ses" |
+"eval (St j) (Div i ses) = eval (divi i (St j)) ses"
 
 value "getInt (eval (St 0) (Add 5 GetResult))"
 
