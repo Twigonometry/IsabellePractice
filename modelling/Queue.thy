@@ -18,4 +18,6 @@ fun dequeue :: "'a queue \<Rightarrow> 'a option \<times> 'a queue" where
 | "dequeue (AQueue xs []) =
 (case rev xs of y # ys \<Rightarrow> (Some y, AQueue [] ys))"
 
+export_code empty dequeue enqueue in Haskell module_name Example file_prefix example
+
 end
