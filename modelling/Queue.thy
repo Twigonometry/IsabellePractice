@@ -22,7 +22,7 @@ export_code empty dequeue enqueue in Haskell module_name Queue file_prefix queue
 
 ML ‹
 val gen_files = Generated_Files.get_files (Proof_Context.theory_of @{context})
-val output_dir = Path.explode "~/generatedHaskellFiles/"
+val output_dir = Path.explode "./generatedHaskellFiles/"
 ›
 
 ML ‹map (Generated_Files.write_file output_dir) gen_files›
