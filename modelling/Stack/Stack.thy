@@ -21,4 +21,6 @@ fun items :: "'a stack \<Rightarrow> 'a list" where
 
 value "items (pop (push 1 (stack [])))"
 
+export_code push pop items in Haskell module_name Stack file_prefix stack
+
 end
